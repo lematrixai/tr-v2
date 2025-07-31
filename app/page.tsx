@@ -1,5 +1,5 @@
-import Header from '@/components/header'
 import HeroSection from '@/components/hero-section'
+import Header from '@/components/header'
 
 const LandingPage = () => {
   return (
