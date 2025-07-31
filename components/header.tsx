@@ -104,7 +104,7 @@ const Header = () => {
                 {/* Footer */}
                 <div className="absolute bottom-6 left-6 right-6">
                   <div className="text-center text-sm text-gray-500">
-                    <p>© 2024 Destination Africa</p>
+                    <p>© {new Date().getFullYear()} Luxury Adventure Tours</p>
                   </div>
                 </div>
               </SheetContent>
