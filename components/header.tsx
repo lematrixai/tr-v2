@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Search, Menu, X, Globe, ChevronDown, Building2, Compass, Heart, MessageCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
@@ -36,9 +36,25 @@ import Image from 'next/image'
 
 const Header = () => {
   const [selectedLanguage, setSelectedLanguage] = useState('en')
+  const [isScrolled, setIsScrolled] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY
+      setIsScrolled(scrollTop > 50)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-transparent">
+    <header className={cn(
+      "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+              isScrolled 
+          ? "bg-gradient-to-b from-black/80 via-black/40 to-black/5 backdrop-blur-xs pb-3" 
+          : "bg-transparent"
+    )}>
       <div className="container mx-auto px-4 pt-8">
         <div className="flex items-center justify-between relative">
           {/* Mobile Navigation Menu */}
@@ -48,9 +64,9 @@ const Header = () => {
                 <Button 
                   variant="outline" 
                   size="icon"
-                  className="w-10 h-10 rounded-full bg-white border-primary text-primary hover:bg-primary hover:border-primary"
+                  className="w-10 h-10 rounded-full bg-transparent border-primary text-primary hover:bg-primary hover:border-primary"
                 >
-                  <Menu className="h-4 w-4" />
+                  <Menu className="h-4 w-4 text-white" />
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-[320px] bg-white/95 backdrop-blur-md border-l border-gray-200/50">
@@ -118,9 +134,9 @@ const Header = () => {
                 <Button 
                   variant="outline" 
                   size="icon"
-                  className="w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm border-primary text-primary hover:bg-primary hover:text-white transition-all duration-200 shadow-sm"
+                  className="w-10 h-10 rounded-full bg-transparent backdrop-blur-sm border-primary text-primary hover:bg-primary hover:text-white transition-all duration-200 shadow-sm"
                 >
-                  <Globe className="h-4 w-4" />
+                  <Globe className="h-4 w-4 text-white" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="w-48 bg-white/95 backdrop-blur-md border border-gray-200/50 shadow-lg rounded-xl">
@@ -171,14 +187,18 @@ const Header = () => {
           </NavigationMenu>
 
           {/* Central Logo - Absolute positioned */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 top-1/2 -translate-y-1/2 z-20">
+          <div className="absolute left-1/2 transform -translate-x-1/2 top-1/2 -translate-y-1/2 ">
             <Image 
               src="/logo.png" 
               priority 
               alt="logo" 
-              width={80} 
-              height={80} 
-              className="w-60 h-60 object-contain"
+              width={150} 
+              height={150} 
+              className={cn(
+                "w-50 h-50 max-md:w-40 max-md:h-40 object-contain transition-all duration-300 -mt-4",
+                isScrolled ? "drop-shadow-md" : ""
+                
+              )}
             />
           </div>
 
@@ -217,9 +237,9 @@ const Header = () => {
             <Button 
               variant="outline" 
               size="icon"
-              className="w-10 h-10 rounded-full bg-white border-primary text-primary hover:bg-primary hover:border-primary"
+              className="w-10 h-10 rounded-full bg-transparent border-primary text-primary hover:bg-primary hover:border-primary"
             >
-              <Search className="h-4 w-4" />
+              <Search className="h-4 w-4 text-white" />
             </Button>
           </div>
         </div>
